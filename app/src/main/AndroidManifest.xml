@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.daleyzou.zhbj">
+
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -13,13 +13,16 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- application中声明android:usesCleartextTraffic="true"表示允许明文传递数据。默认android28是不允许的。-->
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon_150"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +34,14 @@
         <activity android:name=".CommentActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.PageIndicatorDefaults"/>
+            android:theme="@style/Theme.PageIndicatorDefaults" />
+
         <provider
-            android:authorities="com.daleyzou.zhbj"
             android:name="com.daleyzou.zhbj.NewsContentProvider"
-            android:exported="true">
-        </provider>
+            android:authorities="com.daleyzou.zhbj"
+            android:exported="true" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 </manifest>
