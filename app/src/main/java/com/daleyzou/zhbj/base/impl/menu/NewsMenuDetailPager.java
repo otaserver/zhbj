@@ -1,15 +1,14 @@
 package com.daleyzou.zhbj.base.impl.menu;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.daleyzou.zhbj.MainActivity;
 import com.daleyzou.zhbj.R;
@@ -18,15 +17,14 @@ import com.daleyzou.zhbj.domain.NewsMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.viewpagerindicator.TabPageIndicator;
+
+import java.util.ArrayList;
+
 /**
  * 菜单详情页-新闻
- *
+ * <p>
  * ViewPagerIndicator使用流程
  * 1.引入库
  * 2.解决冲突
@@ -35,16 +33,21 @@ import com.viewpagerindicator.TabPageIndicator;
  * 5.在清单文件中增加样式
  * 6.背景修改为白色
  */
-public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPager.OnPageChangeListener{
+public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPager.OnPageChangeListener {
+
+    private static final String TAG = "NewsMenuDetailPager";
 
     @ViewInject(R.id.vp_news_menu_detail)
-   private ViewPager mViewPager;
+    private ViewPager mViewPager;
 
     @ViewInject(R.id.indicator)
     TabPageIndicator mIndicator;
 
-    private ArrayList<NewsMenu.NewsTabData> mTabData;//页签网络数据
-    private ArrayList<TabDetailPager> mPagers;//页签标签集合
+    //页签网络数据
+    private ArrayList<NewsMenu.NewsTabData> mTabData;
+    //页签标签集合
+    private ArrayList<TabDetailPager> mPagers;
+
     public NewsMenuDetailPager(Activity activity, ArrayList<NewsMenu.NewsTabData> children) {
         super(activity);
         mTabData = children;
@@ -52,8 +55,8 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
 
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_news_menu_detail,null);
-        ViewUtils.inject(this,view);
+        View view = View.inflate(mActivity, R.layout.pager_news_menu_detail, null);
+        ViewUtils.inject(this, view);
         return view;
     }
 
@@ -61,8 +64,8 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
     public void initData() {
         // 初始化页签
         mPagers = new ArrayList<TabDetailPager>();
-        for(int i = 0; i < mTabData.size(); i++){
-            TabDetailPager pager = new TabDetailPager(mActivity,mTabData.get(i));
+        for (int i = 0; i < mTabData.size(); i++) {
+            TabDetailPager pager = new TabDetailPager(mActivity, mTabData.get(i));
             mPagers.add(pager);
         }
         mViewPager.setAdapter(new NewsMenuDetailAdapter());
@@ -78,10 +81,10 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
 
     @Override
     public void onPageSelected(int position) {
-        System.out.println("当前位置："+position);
-        if (position == 0){
+        Log.d(TAG, "当前位置：" + position);
+        if (position == 0) {
             setSlidingMenuEnable(true);
-        }else {
+        } else {
             setSlidingMenuEnable(false);
         }
 
@@ -92,7 +95,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
 
     }
 
-    class NewsMenuDetailAdapter extends PagerAdapter{
+    class NewsMenuDetailAdapter extends PagerAdapter {
 
         // 指定指示器的标题
         @Nullable
@@ -128,22 +131,24 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
             return view;
         }
     }
+
     /**
      * 开启或禁用侧边栏
+     *
      * @param enable
      */
     private void setSlidingMenuEnable(boolean enable) {
         MainActivity mainUI = (MainActivity) mActivity;
         SlidingMenu slidingMenu = mainUI.getSlidingMenu();
-        if (enable){
+        if (enable) {
             slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        }else {
+        } else {
             slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         }
     }
 
     @OnClick(R.id.btn_next)
-    public void nextPage(View view){
+    public void nextPage(View view) {
         // 跳到下个页面
         int currentItem = mViewPager.getCurrentItem();
         currentItem++;
