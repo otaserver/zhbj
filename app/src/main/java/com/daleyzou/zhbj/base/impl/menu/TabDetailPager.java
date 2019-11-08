@@ -32,14 +32,20 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+/**
+ * 新闻Tab页。
+ */
 public class TabDetailPager extends BaseMenuDetailPager {
 
     private static final String TAG = "TabDetailPager";
 
-    private NewsMenu.NewsTabData mTabData;//单个页签的网络数据
-//    private TextView view;
+    //单个页签的网络数据
+    private NewsMenu.NewsTabData mTabData;
+
 
     private String mUrl;
     private ArrayList<NewsTabBean.NewsData> mNewsList;
@@ -47,7 +53,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     @ViewInject(R.id.lv_tab_detail_list)
     private PullRefreshListView lvList;
-    private String mMoreUrl; // 下一页数据链接
+    // 下一页数据链接
+    private String mMoreUrl;
 
 
     public TabDetailPager(Activity activity) {
@@ -58,6 +65,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
         super(mActivity);
         mTabData = newsTabData;
         mUrl = newsTabData.url;
+        Log.d(TAG, "mUrl:" + mUrl);
     }
 
     @Override
@@ -112,6 +120,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
                 // 跳到新闻详情页面
                 Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+                Log.d(TAG, " intent url:" + news.link);
+                Log.d(TAG, " intent newsId:" + news.newsId);
                 intent.putExtra("url", news.link);
                 intent.putExtra("newsId", news.newsId);
                 mActivity.startActivity(intent);
@@ -161,11 +171,11 @@ public class TabDetailPager extends BaseMenuDetailPager {
     private void getDataFromServer() {
         HttpUtils utils = new HttpUtils();
         utils.send(HttpRequest.HttpMethod.GET, mUrl, new RequestCallBack<String>() {
+
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
                 processData(result, false);
-
                 CacheUtils.setCache(mUrl, result, mActivity);
                 // 收起下拉刷新控件
                 lvList.onRefreshComplete(true);
@@ -176,7 +186,6 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 //请求失败
                 Log.e(TAG, "请求失败 ", e.getCause());
                 Toast.makeText(mActivity, s, Toast.LENGTH_SHORT).show();
-
                 // 收起下拉刷新控件
                 lvList.onRefreshComplete(false);
             }
@@ -189,7 +198,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
         Log.d(TAG, result);
 
         NewsTabBean newsTabBean = gson.fromJson(result, NewsTabBean.class);
-        String moreUrl = null;//GlobalConstants.MORE_URL;
+        //GlobalConstants.MORE_URL;
+        String moreUrl = null;
         if (!TextUtils.isEmpty(moreUrl)) {
             mMoreUrl = GlobalConstants.MORE_URL;
         } else {
@@ -206,7 +216,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
         } else {
             // 加载更多数据
             ArrayList<NewsTabBean.NewsData> moreNews = newsTabBean.data.feed;
-            mNewsList.addAll(moreNews);// 将数据追加到原来的集合中
+            // 将数据追加到原来的集合中
+            mNewsList.addAll(moreNews);
             // 刷新listview
             mNewsAdapter.notifyDataSetChanged();
         }
@@ -215,6 +226,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     class NewsAdapter extends BaseAdapter {
         private BitmapUtils mBitmapUtils;
+
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         public NewsAdapter() {
             mBitmapUtils = new BitmapUtils(mActivity);
@@ -251,7 +264,12 @@ public class TabDetailPager extends BaseMenuDetailPager {
             }
             NewsTabBean.NewsData news = (NewsTabBean.NewsData) getItem(position);
             holder.tvTitle.setText(news.title);
-            holder.tvDate.setText(news.pubDate);
+
+            //转换为时间格式
+            //TODO:测试用例写异常数据的处理
+            Date dNow = new Date(Long.parseLong(news.pubDate) * 1000);
+            holder.tvDate.setText(sDateFormat.format(dNow));
+
             // 根据本地记录标记已读、未读
             String readIds = PrefUtils.getString(mActivity, "read_ids", "");
             if (readIds.contains(news.newsId + "")) {
