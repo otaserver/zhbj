@@ -35,6 +35,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * 新闻Tab页。
@@ -43,7 +44,9 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     private static final String TAG = "TabDetailPager";
 
-    //单个页签的网络数据
+    /**
+     * 单个页签的网络数据
+     */
     private NewsMenu.NewsTabData mTabData;
 
 
@@ -53,7 +56,10 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     @ViewInject(R.id.lv_tab_detail_list)
     private PullRefreshListView lvList;
-    // 下一页数据链接
+
+    /**
+     * 下一页数据链接
+     */
     private String mMoreUrl;
 
 
@@ -61,7 +67,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
         super(activity);
     }
 
-    public TabDetailPager(Activity mActivity, NewsMenu.NewsTabData newsTabData) {
+    TabDetailPager(Activity mActivity, NewsMenu.NewsTabData newsTabData) {
         super(mActivity);
         mTabData = newsTabData;
         mUrl = newsTabData.url;
@@ -81,6 +87,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
         // 5.前端界面设置回调
         lvList.setOnRefreshListener(new PullRefreshListView.OnRefreshListener() {
+
             @Override
             public void onRefersh() {
                 // 刷新数据
@@ -115,7 +122,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
                     PrefUtils.setString(mActivity, "read_ids", readIds);
                 }
                 // 要将被点击的item的文字改为灰色
-                TextView tvItemTitle = (TextView) view.findViewById(R.id.tv_item_title);
+                TextView tvItemTitle = view.findViewById(R.id.tv_item_title);
                 tvItemTitle.setTextColor(Color.GRAY);
 
                 // 跳到新闻详情页面
@@ -141,17 +148,14 @@ public class TabDetailPager extends BaseMenuDetailPager {
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
                 processData(result, true);
-
                 // 收起下拉刷新控件
                 lvList.onRefreshComplete(true);
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
-                //请求失败
-                Log.e(TAG, "请求失败 ", e.getCause());
+                Log.e(TAG, "Request failed. Url:" + mMoreUrl + ", Cause:" + s, e.fillInStackTrace());
                 Toast.makeText(mActivity, s, Toast.LENGTH_SHORT).show();
-
                 // 收起下拉刷新控件
                 lvList.onRefreshComplete(false);
             }
@@ -172,6 +176,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
         HttpUtils utils = new HttpUtils();
         utils.send(HttpRequest.HttpMethod.GET, mUrl, new RequestCallBack<String>() {
 
+
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
@@ -183,8 +188,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
             @Override
             public void onFailure(HttpException e, String s) {
-                //请求失败
-                Log.e(TAG, "请求失败 ", e.getCause());
+                Log.e(TAG, "Request failed. Url:" + mUrl + ", Cause:" + s, e.fillInStackTrace());
                 Toast.makeText(mActivity, s, Toast.LENGTH_SHORT).show();
                 // 收起下拉刷新控件
                 lvList.onRefreshComplete(false);
@@ -193,11 +197,10 @@ public class TabDetailPager extends BaseMenuDetailPager {
     }
 
     private void processData(String result, boolean isMore) {
-        Gson gson = new Gson();
-
         Log.d(TAG, result);
-
+        Gson gson = new Gson();
         NewsTabBean newsTabBean = gson.fromJson(result, NewsTabBean.class);
+
         //GlobalConstants.MORE_URL;
         String moreUrl = null;
         if (!TextUtils.isEmpty(moreUrl)) {
@@ -226,10 +229,9 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     class NewsAdapter extends BaseAdapter {
         private BitmapUtils mBitmapUtils;
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        public NewsAdapter() {
+        private NewsAdapter() {
             mBitmapUtils = new BitmapUtils(mActivity);
             mBitmapUtils.configDefaultLoadingImage(R.drawable.news_pic_default);
         }
@@ -255,9 +257,9 @@ public class TabDetailPager extends BaseMenuDetailPager {
             if (convertView == null) {
                 convertView = View.inflate(mActivity, R.layout.list_item_news, null);
                 holder = new ViewHolder();
-                holder.ivIcon = (ImageView) convertView.findViewById(R.id.iv_icon);
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_item_title);
-                holder.tvDate = (TextView) convertView.findViewById(R.id.tv_item_date);
+                holder.ivIcon = convertView.findViewById(R.id.iv_icon);
+                holder.tvTitle = convertView.findViewById(R.id.tv_item_title);
+                holder.tvDate = convertView.findViewById(R.id.tv_item_date);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -283,9 +285,12 @@ public class TabDetailPager extends BaseMenuDetailPager {
         }
     }
 
-    static class ViewHolder {
-        public ImageView ivIcon;
-        public TextView tvTitle;
-        public TextView tvDate;
+    /**
+     * Tab页中的数据项
+     */
+    private static class ViewHolder {
+        private ImageView ivIcon;
+        private TextView tvTitle;
+        private TextView tvDate;
     }
 }
