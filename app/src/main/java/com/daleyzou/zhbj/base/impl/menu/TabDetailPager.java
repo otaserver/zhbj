@@ -16,9 +16,9 @@ import android.widget.Toast;
 import com.daleyzou.zhbj.NewsDetailActivity;
 import com.daleyzou.zhbj.R;
 import com.daleyzou.zhbj.base.BaseMenuDetailPager;
-import com.daleyzou.zhbj.domain.NewsMenu;
+import com.daleyzou.zhbj.domain.NewsMenu.NewsTabData;
 import com.daleyzou.zhbj.domain.NewsTabBean;
-import com.daleyzou.zhbj.global.GlobalConstants;
+import com.daleyzou.zhbj.domain.NewsTabBean.NewsData;
 import com.daleyzou.zhbj.utils.CacheUtils;
 import com.daleyzou.zhbj.utils.PrefUtils;
 import com.daleyzou.zhbj.view.PullRefreshListView;
@@ -34,8 +34,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
+
+//https://github.com/wyouflf/xUtils3
+//https://gitee.com/wyouflf/xUtils3
+//封装了http请求，数据库映射，图片加载的一些常用方法。
+//TODO：替换为新版的xutils
 
 /**
  * 新闻Tab页。
@@ -47,12 +51,14 @@ public class TabDetailPager extends BaseMenuDetailPager {
     /**
      * 单个页签的网络数据
      */
-    private NewsMenu.NewsTabData mTabData;
+    private NewsTabData mTabData;
 
 
     private String mUrl;
-    private ArrayList<NewsTabBean.NewsData> mNewsList;
+    private ArrayList<NewsData> mNewsList;
     private NewsAdapter mNewsAdapter;
+
+    private String mPackageDate;
 
     @ViewInject(R.id.lv_tab_detail_list)
     private PullRefreshListView lvList;
@@ -67,7 +73,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
         super(activity);
     }
 
-    TabDetailPager(Activity mActivity, NewsMenu.NewsTabData newsTabData) {
+    TabDetailPager(Activity mActivity, NewsTabData newsTabData) {
         super(mActivity);
         mTabData = newsTabData;
         mUrl = newsTabData.url;
@@ -100,7 +106,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 if (mMoreUrl != null) {
                     getMoreDataFromServer();
                 } else {
-                    Toast.makeText(mActivity, "没有更多多数据了", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     lvList.onRefreshComplete(true);// 没有数据时也要收起控件
                 }
             }
@@ -174,12 +180,13 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     private void getDataFromServer() {
         HttpUtils utils = new HttpUtils();
+        //根据url，发送请求。
         utils.send(HttpRequest.HttpMethod.GET, mUrl, new RequestCallBack<String>() {
-
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
+                Log.d(TAG, "onSuccess result:" + result);
                 processData(result, false);
                 CacheUtils.setCache(mUrl, result, mActivity);
                 // 收起下拉刷新控件
@@ -197,17 +204,20 @@ public class TabDetailPager extends BaseMenuDetailPager {
     }
 
     private void processData(String result, boolean isMore) {
-        Log.d(TAG, result);
+        Log.d(TAG, "processData:" + result);
         Gson gson = new Gson();
+
+        //从json中解析并加载数据。
         NewsTabBean newsTabBean = gson.fromJson(result, NewsTabBean.class);
 
-        //GlobalConstants.MORE_URL;
-        String moreUrl = null;
-        if (!TextUtils.isEmpty(moreUrl)) {
-            mMoreUrl = GlobalConstants.MORE_URL;
-        } else {
-            mMoreUrl = null;
-        }
+//        mMoreUrl = GlobalConstants.MORE_URL;
+//        赋值给类变量，用于翻页。
+        mMoreUrl = newsTabBean.data.nextPageUrl;
+        Log.d("mMoreUrl:", mMoreUrl);
+
+
+        mPackageDate = newsTabBean.packageDate;
+
         if (!isMore) {
             // 列表新闻
             mNewsList = newsTabBean.data.feed;
@@ -260,6 +270,10 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 holder.ivIcon = convertView.findViewById(R.id.iv_icon);
                 holder.tvTitle = convertView.findViewById(R.id.tv_item_title);
                 holder.tvDate = convertView.findViewById(R.id.tv_item_date);
+
+                holder.tvPrice = convertView.findViewById(R.id.tv_item_price);
+                holder.tvCatName = convertView.findViewById(R.id.tv_item_category_name);
+
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -267,10 +281,15 @@ public class TabDetailPager extends BaseMenuDetailPager {
             NewsTabBean.NewsData news = (NewsTabBean.NewsData) getItem(position);
             holder.tvTitle.setText(news.title);
 
+//            holder.tvIntro.setText(news.intro);
+
             //转换为时间格式
             //TODO:测试用例写异常数据的处理
-            Date dNow = new Date(Long.parseLong(news.pubDate) * 1000);
-            holder.tvDate.setText(sDateFormat.format(dNow));
+
+//            Date dNow = new Date(Long.parseLong(news.pubDate) * 1000);
+//            holder.tvDate.setText(sDateFormat.format(dNow));
+
+            holder.tvDate.setText(news.couponStartTime);
 
             // 根据本地记录标记已读、未读
             String readIds = PrefUtils.getString(mActivity, "read_ids", "");
@@ -280,7 +299,11 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 holder.tvTitle.setTextColor(Color.BLACK);
             }
 
-            mBitmapUtils.display(holder.ivIcon, news.kpic);
+            holder.tvPrice.setText(news.price);
+            holder.tvCatName.setText(news.catName);
+
+
+            mBitmapUtils.display(holder.ivIcon, news.pic);
             return convertView;
         }
     }
@@ -292,5 +315,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
         private ImageView ivIcon;
         private TextView tvTitle;
         private TextView tvDate;
+        private TextView tvPrice;
+        //分类的名称
+        private TextView tvCatName;
     }
 }
