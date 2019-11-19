@@ -14,7 +14,9 @@ import com.daleyzou.zhbj.MainActivity;
 import com.daleyzou.zhbj.R;
 import com.daleyzou.zhbj.base.BaseMenuDetailPager;
 import com.daleyzou.zhbj.domain.NewsMenu;
+import com.daleyzou.zhbj.domain.NewsMenu.NewsTabData;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -43,12 +45,21 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
     @ViewInject(R.id.indicator)
     TabPageIndicator mIndicator;
 
-    //页签网络数据
-    private ArrayList<NewsMenu.NewsTabData> mTabData;
-    //页签标签集合
+    /**
+     * 页签网络数据
+     */
+    private ArrayList<NewsTabData> mTabData;
+
+    /**
+     * 页签标签集合
+     */
     private ArrayList<TabDetailPager> mPagers;
 
-    public NewsMenuDetailPager(Activity activity, ArrayList<NewsMenu.NewsTabData> children) {
+//    传入的children数据。
+//    NewsTabData{id=10007, title='推荐', type=1, url='http://newsapi.sina.cn/?resource=feed&lDid=a9f1b781-e891-4198-af53-1fb74ab3ad1b&oldChwm=&upTimes=0&city=&prefetch=99&channel=news_toutiao&link=&ua=Xiaomi-MI+6__sinanews__6.8.8__android__8.0.0&deviceId=aeaaa73c147faf4e&connectionType=2&resolution=1080x1920&weiboUid=&mac=02%3A00%3A00%3A00%3A00%3A00&replacedFlag=0&osVersion=8.0.0&chwm=14010_0001&pullTimes=1&weiboSuid=&andId=301aa36754a2692e&from=6068895012&sn=8a8a0650&behavior=auto&aId=&localSign=a_22eb3a47-189e-44ac-be6d-81ef8ac635b6&deviceIdV1=aeaaa73c147faf4e&todayReqTime=0&osSdk=26&abver=1527581432688&listCount=0&accessToken=&downTimes=0&abt=313_302_297_281_277_275_269_255_253_251_249_242_237_230_228_226_217_215_207_203_191_189_187_171_153_149_143_141_139_135_128_113_111_57_45_38_21_18_16_13&lastTimestamp=0&pullDirection=down&seId=e70c98e4da&imei=868030036302089&deviceModel=Xiaomi__Xiaomi__MI+6&location=0.0%2C0.0&loadingAdTimestamp=0&urlSign=befedbd988&rand=926'},
+//    NewsTabData{id=10095, title='关注', type=1, url='http://newsapi.sina.cn/?resource=feed&lDid=a9f1b781-e891-4198-af53-1fb74ab3ad1b&oldChwm=&upTimes=0&city=&prefetch=99&channel=news_toutiao&link=&ua=Xiaomi-MI+6__sinanews__6.8.8__android__8.0.0&deviceId=aeaaa73c147faf4e&connectionType=2&resolution=1080x1920&weiboUid=&mac=02%3A00%3A00%3A00%3A00%3A00&replacedFlag=0&osVersion=8.0.0&chwm=14010_0001&pullTimes=1&weiboSuid=&andId=301aa36754a2692e&from=6068895012&sn=8a8a0650&behavior=auto&aId=&localSign=a_22eb3a47-189e-44ac-be6d-81ef8ac635b6&deviceIdV1=aeaaa73c147faf4e&todayReqTime=0&osSdk=26&abver=1527581432688&listCount=0&accessToken=&downTimes=0&abt=313_302_297_281_277_275_269_255_253_251_249_242_237_230_228_226_217_215_207_203_191_189_187_171_153_149_143_141_139_135_128_113_111_57_45_38_21_18_16_13&lastTimestamp=0&pullDirection=down&seId=e70c98e4da&imei=868030036302089&deviceModel=Xiaomi__Xiaomi__MI+6&location=0.0%2C0.0&loadingAdTimestamp=0&urlSign=befedbd988&rand=926'
+
+    public NewsMenuDetailPager(Activity activity, ArrayList<NewsTabData> children) {
         super(activity);
         mTabData = children;
     }
@@ -79,6 +90,10 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements ViewPage
 
     }
 
+    /**
+     * 响应顶部菜单切换
+     * @param position
+     */
     @Override
     public void onPageSelected(int position) {
         Log.d(TAG, "当前位置：" + position);

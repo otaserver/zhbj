@@ -11,8 +11,8 @@ import com.daleyzou.zhbj.base.BasePager;
 /**
  * 首页
  */
-public class SettingPager extends BasePager {
-    public SettingPager(Activity activity) {
+public class TaskPager extends BasePager {
+    public TaskPager(Activity activity) {
         super(activity);
     }
 
@@ -20,14 +20,14 @@ public class SettingPager extends BasePager {
     public void initData() {
         //要给帧布局填充布局对象
         TextView view = new TextView(mActivity);
-        view.setText("个人设置页面，包括定义感兴趣的商品，收藏夹，消息等");
+        view.setText("每天领红包，增加用户粘性");
         view.setTextColor(Color.RED);
         view.setTextSize(22);
         view.setGravity(Gravity.CENTER);
 
         flContent.addView(view);
         //修改页面标题
-        tvTitle.setText("个人设置");
-        btnMenu.setVisibility(View.GONE);
+        tvTitle.setText("任务");
+        btnMenu.setVisibility(View.VISIBLE);
     }
 }

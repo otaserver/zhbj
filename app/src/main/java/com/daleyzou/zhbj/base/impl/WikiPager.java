@@ -9,10 +9,10 @@ import android.widget.TextView;
 import com.daleyzou.zhbj.base.BasePager;
 
 /**
- * 首页
+ * 百科页面
  */
-public class GovAffairsPager extends BasePager {
-    public GovAffairsPager(Activity activity) {
+public class WikiPager extends BasePager {
+    public WikiPager(Activity activity) {
         super(activity);
     }
 
@@ -20,14 +20,14 @@ public class GovAffairsPager extends BasePager {
     public void initData() {
         //要给帧布局填充布局对象
         TextView view = new TextView(mActivity);
-        view.setText("政务");
+        view.setText("这里查商品的百科信息");
         view.setTextColor(Color.RED);
         view.setTextSize(22);
         view.setGravity(Gravity.CENTER);
 
         flContent.addView(view);
         //修改页面标题
-        tvTitle.setText("人口管理");
+        tvTitle.setText("百科");
         btnMenu.setVisibility(View.VISIBLE);
     }
 }
