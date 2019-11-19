@@ -23,14 +23,14 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewConfigurationCompat;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Draws a line for each page. The current page line is colored differently
@@ -88,7 +88,7 @@ public class LinePageIndicator extends View implements PageIndicator {
 
         Drawable background = a.getDrawable(R.styleable.LinePageIndicator_android_background);
         if (background != null) {
-          setBackgroundDrawable(background);
+            setBackgroundDrawable(background);
         }
 
         a.recycle();
@@ -348,8 +348,7 @@ public class LinePageIndicator extends View implements PageIndicator {
     /**
      * Determines the width of this view
      *
-     * @param measureSpec
-     *            A measureSpec packed into an int
+     * @param measureSpec A measureSpec packed into an int
      * @return The width of the view, honoring constraints from measureSpec
      */
     private int measureWidth(int measureSpec) {
@@ -369,14 +368,13 @@ public class LinePageIndicator extends View implements PageIndicator {
                 result = Math.min(result, specSize);
             }
         }
-        return (int)Math.ceil(result);
+        return (int) Math.ceil(result);
     }
 
     /**
      * Determines the height of this view
      *
-     * @param measureSpec
-     *            A measureSpec packed into an int
+     * @param measureSpec A measureSpec packed into an int
      * @return The height of the view, honoring constraints from measureSpec
      */
     private int measureHeight(int measureSpec) {
@@ -395,12 +393,12 @@ public class LinePageIndicator extends View implements PageIndicator {
                 result = Math.min(result, specSize);
             }
         }
-        return (int)Math.ceil(result);
+        return (int) Math.ceil(result);
     }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         mCurrentPage = savedState.currentPage;
         requestLayout();
