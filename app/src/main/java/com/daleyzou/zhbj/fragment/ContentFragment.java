@@ -1,20 +1,21 @@
 package com.daleyzou.zhbj.fragment;
 
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.daleyzou.zhbj.MainActivity;
 import com.daleyzou.zhbj.R;
 import com.daleyzou.zhbj.base.BasePager;
-import com.daleyzou.zhbj.base.impl.GovAffairsPager;
 import com.daleyzou.zhbj.base.impl.HomePager;
-import com.daleyzou.zhbj.base.impl.NewsCenterPager;
 import com.daleyzou.zhbj.base.impl.SettingPager;
-import com.daleyzou.zhbj.base.impl.SmartServicePager;
+import com.daleyzou.zhbj.base.impl.TaskPager;
+import com.daleyzou.zhbj.base.impl.VideoPager;
+import com.daleyzou.zhbj.base.impl.WikiPager;
 import com.daleyzou.zhbj.view.NoScollViewPager;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -31,7 +32,7 @@ public class ContentFragment extends BaseFragment {
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_content, null);
-        mViewPager = (NoScollViewPager)view.findViewById(R.id.vp_content);
+        mViewPager = (NoScollViewPager) view.findViewById(R.id.vp_content);
         rgGroup = (RadioGroup) view.findViewById(R.id.rg_group);
         return view;
     }
@@ -41,10 +42,11 @@ public class ContentFragment extends BaseFragment {
         mPagers = new ArrayList<BasePager>();
 
         //添加五个标签页
+
         mPagers.add(new HomePager(mActivity));
-        mPagers.add(new NewsCenterPager(mActivity));
-        mPagers.add(new SmartServicePager(mActivity));
-        mPagers.add(new GovAffairsPager(mActivity));
+        mPagers.add(new VideoPager(mActivity));
+        mPagers.add(new WikiPager(mActivity));
+        mPagers.add(new TaskPager(mActivity));
         mPagers.add(new SettingPager(mActivity));
 
 
@@ -53,12 +55,12 @@ public class ContentFragment extends BaseFragment {
         rgGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.rb_home:
-                        mViewPager.setCurrentItem(0);//参2：是否平滑滑动
-                        break;
+                switch (checkedId) {
                     case R.id.rb_news:
-                        mViewPager.setCurrentItem(1);
+                        mViewPager.setCurrentItem(0);
+                        break;
+                    case R.id.rb_video:
+                        mViewPager.setCurrentItem(1);//参2：是否平滑滑动
                         break;
                     case R.id.rb_smart:
                         mViewPager.setCurrentItem(2);
@@ -85,10 +87,10 @@ public class ContentFragment extends BaseFragment {
                 BasePager pager = mPagers.get(position);
                 pager.initData();
 
-                if (position == 0 || position == mPagers.size() - 1){
+                if (position == 0 || position == mPagers.size() - 1) {
                     //首页和设置禁用侧边栏
                     setSlidingMenuEnable(false);
-                }else {
+                } else {
                     //其他页面开启侧边栏
                     setSlidingMenuEnable(true);
                 }
@@ -106,20 +108,21 @@ public class ContentFragment extends BaseFragment {
 
     /**
      * 开启或禁用侧边栏
+     *
      * @param enable
      */
     private void setSlidingMenuEnable(boolean enable) {
         MainActivity mainUI = (MainActivity) mActivity;
         SlidingMenu slidingMenu = mainUI.getSlidingMenu();
-        if (enable){
+        if (enable) {
             slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        }else {
+        } else {
             slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         }
     }
 
 
-    class ContentAdaper extends PagerAdapter{
+    class ContentAdaper extends PagerAdapter {
 
         @Override
         public int getCount() {
@@ -152,8 +155,8 @@ public class ContentFragment extends BaseFragment {
     /**
      * 获取新闻中心页面
      */
-    public NewsCenterPager getNewsCenterPager(){
-        NewsCenterPager pager = (NewsCenterPager) mPagers.get(1);
-        return pager;
-    }
+//    public VideoPager getNewsCenterPager(){
+//        VideoPager pager = (VideoPager) mPagers.get(1);
+//        return pager;
+//    }
 }
