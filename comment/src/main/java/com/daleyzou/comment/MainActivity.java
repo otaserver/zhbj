@@ -2,8 +2,6 @@ package com.daleyzou.comment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,24 +15,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+//Fresco是Facebook开源Android平台上一个强大的图片加载库，也是迄今为止Android平台上最强大的图片加载库。
+
+
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.am_lv_comments)
+    @BindView(R.id.am_lv_comments)
     ListView mAmLvComments;
-    @Bind(R.id.am_tv_zan)
+    @BindView(R.id.am_tv_zan)
     TextView mAmTvZan;
-    @Bind(R.id.am_tv_comment)
+    @BindView(R.id.am_tv_comment)
     TextView mAmTvComment;
-    @Bind(R.id.am_srl_reflush)
+    @BindView(R.id.am_srl_reflush)
     SwipeRefreshLayout mAmSrlReflush;
     //添加listview头
     View mView;
@@ -42,19 +46,19 @@ public class MainActivity extends AppCompatActivity {
     List<Comment> mCommentList;
     //adapter
     BaseAdapter mBaseAdapter;
-    @Bind(R.id.am_et_msg)
+    @BindView(R.id.am_et_msg)
     EditText mAmEtMsg;
-    @Bind(R.id.am_b_save)
+    @BindView(R.id.am_b_save)
     Button mAmBSave;
-    @Bind(R.id.am_ll_liuyan)
+    @BindView(R.id.am_ll_liuyan)
     LinearLayout mAmLlLiuyan;
-    @Bind(R.id.am_ll_info)
+    @BindView(R.id.am_ll_info)
     LinearLayout mAmLlInfo;
 
     //回复的内容
     String info = "";
     //标记位，是评论还是回复。默true认评论
-    boolean isComment=true;
+    boolean isComment = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
         mAmLvComments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int post=position-1;//除去头
-                Toast.makeText(MainActivity.this, "点击了第"+post+"个", Toast.LENGTH_SHORT).show();
-                isComment=false;//
+                int post = position - 1;//除去头
+                Toast.makeText(MainActivity.this, "点击了第" + post + "个", Toast.LENGTH_SHORT).show();
+                isComment = false;//
                 comment(true);//调出评论框
                 mAmEtMsg.setText("");//清空
-                mAmEtMsg.setHint("回复"+mCommentList.get(post).getNickName());
+                mAmEtMsg.setHint("回复" + mCommentList.get(post).getNickName());
             }
         });
 
@@ -140,19 +144,19 @@ public class MainActivity extends AppCompatActivity {
     //这边应该上传用户留言，然后刷新界面
     private void updateComment() {
         Comment comment = null;
-        comment = new Comment(666 + "", "张三" + 666, "http://d.hiphotos.baidu.com/image/h%3D360/sign=856d60650933874483c5297a610fd937/55e736d12f2eb938e81944c7d0628535e5dd6f8a.jpg", 1, "郑州航空工业管理学院",info, "2015-03-04 23:02:06", null);
-        mCommentList.add(0,comment);
+        comment = new Comment(666 + "", "张三" + 666, "http://d.hiphotos.baidu.com/image/h%3D360/sign=856d60650933874483c5297a610fd937/55e736d12f2eb938e81944c7d0628535e5dd6f8a.jpg", 1, "郑州航空工业管理学院", info, "2015-03-04 23:02:06", null);
+        mCommentList.add(0, comment);
         mBaseAdapter.notifyDataSetChanged();
         //还原
         comment(false);
     }
 
     private void comment(boolean flag) {
-        if(flag){
+        if (flag) {
             mAmLlInfo.setVisibility(View.GONE);
             mAmLlLiuyan.setVisibility(View.VISIBLE);
             onFocusChange(flag);
-        }else{
+        } else {
             mAmLlInfo.setVisibility(View.VISIBLE);
             mAmLlLiuyan.setVisibility(View.GONE);
             onFocusChange(flag);
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private void onFocusChange(boolean hasFocus) {
         final boolean isFocus = hasFocus;
         (new Handler()).postDelayed(new Runnable() {
+            @Override
             public void run() {
                 InputMethodManager imm = (InputMethodManager)
                         MainActivity.this.getSystemService(INPUT_METHOD_SERVICE);
