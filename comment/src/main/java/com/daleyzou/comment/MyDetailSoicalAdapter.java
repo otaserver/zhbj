@@ -13,7 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -86,21 +86,21 @@ public class MyDetailSoicalAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @Bind(R.id.iam_sdv_img)
+        @BindView(R.id.iam_sdv_img)
         SimpleDraweeView mIamSdvImg;
-        @Bind(R.id.iam_tv_reply)
+        @BindView(R.id.iam_tv_reply)
         TextView mIamTvReply;
-        @Bind(R.id.iam_tv_huifu)
+        @BindView(R.id.iam_tv_huifu)
         TextView iam_tv_huifu;
-        @Bind(R.id.iam_tv_replyed)
+        @BindView(R.id.iam_tv_replyed)
         TextView mIamTvReplyed;
-        @Bind(R.id.iam_iv_sex)
+        @BindView(R.id.iam_iv_sex)
         ImageView mIamIvSex;
-        @Bind(R.id.iam_tv_local)
+        @BindView(R.id.iam_tv_local)
         TextView mIamTvLocal;
-        @Bind(R.id.iam_tv_content)
+        @BindView(R.id.iam_tv_content)
         TextView mIamTvContent;
-        @Bind(R.id.iam_tv_time)
+        @BindView(R.id.iam_tv_time)
         TextView mIamTvTime;
 
         ViewHolder(View view) {

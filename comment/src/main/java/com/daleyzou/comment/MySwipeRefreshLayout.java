@@ -1,9 +1,10 @@
 package com.daleyzou.comment;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Created by wgyscsf on 2016/5/26.
