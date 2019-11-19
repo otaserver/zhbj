@@ -41,6 +41,7 @@ public class HomePager extends BasePager {
 
     @Override
     public void initData() {
+
         //要给帧布局填充布局对象
         TextView view = new TextView(mActivity);
         view.setText("显示最新的特价信息");
@@ -93,6 +94,8 @@ public class HomePager extends BasePager {
         });
     }
 
+
+
     /**
      * 解析数据
      *
@@ -106,6 +109,19 @@ public class HomePager extends BasePager {
 
         //初始化菜单详情页
         mMenuDetailPagers = new ArrayList<BaseMenuDetailPager>();
+//        测试数据。
+//        NewsMenu{
+//            data=[
+//            NewsMenuData{id=10000, title='测试', type=1,
+//                    children=[
+//                NewsTabData{id=10007, title='推荐', type=1, url='http://newsapi.sina.cn/XXX988&rand=926'},
+//                NewsTabData{id=10095, title='关注', type=1, url='http://newsapi.sina.cn/?resource=feed&lDid=a9f1b781-e891-4198-af53-1fb74ab3ad1b&oldChwm=&upTimes=0&city=&prefetch=99&channel=news_toutiao&link=&ua=Xiaomi-MI+6__sinanews__6.8.8__android__8.0.0&deviceId=aeaaa73c147faf4e&connectionType=2&resolution=1080x1920&weiboUid=&mac=02%3A00%3A00%3A00%3A00%3A00&replacedFlag=0&osVersion=8.0.0&chwm=14010_0001&pullTimes=1&weiboSuid=&andId=301aa36754a2692e&from=6068895012&sn=8a8a0650&behavior=auto&aId=&localSign=a_22eb3a47-189e-44ac-be6d-81ef8ac635b6&deviceIdV1=aeaaa73c147faf4e&todayReqTime=0&osSdk=26&abver=1527581432688&listCount=0&accessToken=&downTimes=0&abt=313_302_297_281_277_275_269_255_253_251_249_242_237_230_228_226_217_215_207_203_191_189_187_171_153_149_143_141_139_135_128_113_111_57_45_38_21_18_16_13&lastTimestamp=0&pullDirection=down&seId=e70c98e4da&imei=868030036302089&deviceModel=Xiaomi__Xiaomi__MI+6&location=0.0%2C0.0&loadingAdTimestamp=0&urlSign=befedbd988&rand=926'}
+//]},
+//            NewsMenuData{id=10002, title='没想好', type=10, children=null},
+//            NewsMenuData{id=10003, title='不知道', type=2, children=null},
+//            NewsMenuData{id=10004, title='不写了', type=3, children=null}
+//]}
+//        代码里只取了data中的第一个节点。
         mMenuDetailPagers.add(new NewsMenuDetailPager(mActivity, mNewsData.data.get(0).children));
 
         // 将新闻菜单详情页设为默认界面
