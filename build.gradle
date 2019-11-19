@@ -4,9 +4,11 @@ buildscript {
     
     repositories {
         google()
-        jcenter()
         maven { url 'https://maven.aliyun.com/repository/public/'  }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'http://mvn.mob.com/android' }
+        jcenter()
             //此地址国内会经常访问不到，建议用阿里云的镜像。https://help.aliyun.com/document_detail/102512.html?spm=a2c40.aliyun_maven_repo.0.0.361830542uam9k
             //url 'https://maven.google.com',
             //url "https://maven.aliyun.com/repository/google",
@@ -14,7 +16,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
         classpath "com.mob.sdk:MobSDK:+"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -25,6 +27,9 @@ buildscript {
 allprojects {
     repositories {
         google()
+        maven { url 'https://maven.aliyun.com/repository/public/'  }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
         jcenter()
     }
 }
