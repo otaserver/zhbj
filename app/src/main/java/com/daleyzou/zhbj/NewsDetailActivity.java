@@ -75,6 +75,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     TextView mAmTvComment;
     //添加listview头
     View mView;
+
     /**
      * 列表数据
      */
@@ -116,13 +117,13 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mAmTvComment.setOnClickListener(this);
         mAmBSave.setOnClickListener(this);
 
-//        mWebView.loadUrl("http://10.0.2.2:8080/zhbj/10007/724D6A55496A11726628.html");
         WebSettings settings = mWebView.getSettings();
         // 显示缩放按钮
         settings.setBuiltInZoomControls(true);
         // 支持双击缩放
         settings.setUseWideViewPort(true);
-//        settings.setJavaScriptEnabled(true);// 支持js功能
+        // 不支持js功能
+        settings.setJavaScriptEnabled(false);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAppCacheEnabled(true);
@@ -148,11 +149,22 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 pbLoading.setVisibility(View.INVISIBLE);
             }
 
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.d(TAG, "跳转链接：" + url);
-                view.loadUrl(url);// 强制在当前webview中加载
-                return true;
+                try {
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+                        view.setWebChromeClient(new WebChromeClient());
+                        view.loadUrl(url);
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    }
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
             }
 
             @Override
