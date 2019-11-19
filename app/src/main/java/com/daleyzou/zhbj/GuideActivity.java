@@ -2,12 +2,7 @@ package com.daleyzou.zhbj;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -16,9 +11,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.daleyzou.zhbj.utils.PrefUtils;
 
 import java.util.ArrayList;
+
 
 /**
  * 新手引导界面
@@ -27,13 +29,16 @@ public class GuideActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     // 引导页图片id数组
-    private int[] mImageIds = new int[]{R.drawable.guide_1,R.drawable.guide_2,R.drawable.guide_3};
+    private int[] mImageIds = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3};
 
     private ArrayList<ImageView> mImageViewList;// imageView集合
     private LinearLayout llContainer;
     private ImageView ivRedPoint;
-    private  int mPointDis;
+    private int mPointDis;
     private Button btnStart;
+
+    private static final String TAG = "GuideActivity";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +47,9 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide);
 
         mViewPager = findViewById(R.id.vp_guide);
-        llContainer = (LinearLayout)findViewById(R.id.ll_content);
+        llContainer = (LinearLayout) findViewById(R.id.ll_content);
         ivRedPoint = (ImageView) findViewById(R.id.iv_red_point);
         btnStart = (Button) findViewById(R.id.btn_start);
-
 
         initeData();
         mViewPager.setAdapter(new GuideAdapter());
@@ -55,7 +59,7 @@ public class GuideActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //当页面滑动过程中回调
                 //更新小红点距离
-                int leftMargin = (int)(mPointDis * positionOffset + position * mPointDis);
+                int leftMargin = (int) (mPointDis * positionOffset + position * mPointDis);
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivRedPoint.getLayoutParams();
                 layoutParams.leftMargin = leftMargin;//修改左边距
 
@@ -65,9 +69,9 @@ public class GuideActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 //某个页面被选中
-                if (position == mImageViewList.size() - 1){//最后一个页面显示开始体验的按钮
+                if (position == mImageViewList.size() - 1) {//最后一个页面显示开始体验的按钮
                     btnStart.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     btnStart.setVisibility(View.INVISIBLE);
                 }
             }
@@ -88,7 +92,7 @@ public class GuideActivity extends AppCompatActivity {
                 ivRedPoint.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 //layout方法执行结束的回调
                 mPointDis = llContainer.getChildAt(1).getLeft() - llContainer.getChildAt(0).getLeft();
-                System.out.println("圆点之间的距离："+mPointDis);
+                Log.d(TAG, "圆点之间的距离：" + mPointDis);
             }
         });
 
@@ -96,9 +100,9 @@ public class GuideActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //更新sp
-                PrefUtils.setBoolen(getApplication(),"is_first_enter",false);
+                PrefUtils.setBoolen(getApplication(), "is_first_enter", false);
                 //跳转到主页面
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
         });
@@ -107,29 +111,29 @@ public class GuideActivity extends AppCompatActivity {
     /**
      * 初始化数据
      */
-   private void initeData(){
-       mImageViewList = new ArrayList<ImageView>();
-       for (int i = 0; i < mImageIds.length; i++){
-           ImageView  view = new ImageView(this);
-           view.setBackgroundResource(mImageIds[i]);// 通过设置背景，可以让宽高填充布局
-           mImageViewList.add(view);
-           // 初始化布局参数，宽高包裹内容，父控件是谁，就是谁声明的布局参数
-           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                   LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-           if(i > 0){
-               // 设置左边距
-               params.leftMargin = 10;
-           }
+    private void initeData() {
+        mImageViewList = new ArrayList<ImageView>();
+        for (int i = 0; i < mImageIds.length; i++) {
+            ImageView view = new ImageView(this);
+            view.setBackgroundResource(mImageIds[i]);// 通过设置背景，可以让宽高填充布局
+            mImageViewList.add(view);
+            // 初始化布局参数，宽高包裹内容，父控件是谁，就是谁声明的布局参数
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            if (i > 0) {
+                // 设置左边距
+                params.leftMargin = 10;
+            }
 
-           //初始化小圆点
-           ImageView point = new ImageView(this);
-           point.setImageResource(R.drawable.shape_point_gray);// 设置形状
-           point.setLayoutParams(params);
-           llContainer.addView(point);
-       }
-   }
+            //初始化小圆点
+            ImageView point = new ImageView(this);
+            point.setImageResource(R.drawable.shape_point_gray);// 设置形状
+            point.setLayoutParams(params);
+            llContainer.addView(point);
+        }
+    }
 
-    class GuideAdapter extends PagerAdapter{
+    class GuideAdapter extends PagerAdapter {
 
         //item的个数
         @Override
@@ -139,7 +143,7 @@ public class GuideActivity extends AppCompatActivity {
 
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view==object;
+            return view == object;
         }
 
         //初始化item布局
