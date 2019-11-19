@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">DaleyZou</string>
-    <string name="share">DaleyZou</string>
+    <string name="app_name">羊毛工场</string>
+    <string name="share">羊毛工场</string>
+    <string name="homepage">首页</string>
+    <string name="video">视频</string>
+    <string name="wiki">百科</string>
+    <string name="task">任务</string>
+    <string name="aboutMe">我的</string>
 </resources>
