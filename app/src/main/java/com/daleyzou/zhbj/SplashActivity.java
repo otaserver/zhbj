@@ -2,6 +2,7 @@ package com.daleyzou.zhbj;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -11,7 +12,13 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.daleyzou.zhbj.global.GlobalConstants;
 import com.daleyzou.zhbj.utils.PrefUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 /**
  * 启动页，也是app的主活动页
@@ -19,6 +26,9 @@ import com.daleyzou.zhbj.utils.PrefUtils;
 public class SplashActivity extends AppCompatActivity {
 
     private RelativeLayout rlRoot;
+
+    //为日志Log定义tag标签
+    private static final String TAG = "SplashActivity";
 
     /**
      * 是否显示开屏动画。
@@ -29,6 +39,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         getSupportActionBar().hide();
+
+        getDataFromServer();
 
         rlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         // 旋转动画
@@ -91,5 +103,25 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 从服务器获取数据
+     */
+    private void getDataFromServer() {
+        HttpUtils utils = new HttpUtils();
+        utils.send(HttpRequest.HttpMethod.GET, GlobalConstants.NETWORK_TEST_URL, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                //请求成功
+                String result = responseInfo.result;
+                Log.d(TAG, "测试网络联通性，服务器返回结果：" + result);
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                Log.e(TAG, "测试网络联通性，从服务器取回内容失败！", e.getCause());
+            }
+        });
     }
 }
