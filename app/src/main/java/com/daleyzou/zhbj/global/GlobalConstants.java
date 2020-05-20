@@ -11,6 +11,10 @@ public class GlobalConstants {
 
     //服务器主域名
     public static final String SERVER_SITE_URL = "http://zns101.com/api";
+
+    //增加一个网络联通性的验证接口，避免后期用json解析器解析json报错引起的退出。
+    public static final String NETWORK_TEST_URL = SERVER_SITE_URL + "/api0.json";
+
     //分类信息接口
 //    public static final String CATEGORY_URL = SERVER_URL + "/categories.json";
     public static final String CATEGORY_URL = SERVER_SITE_URL + "/api11-2.json";
