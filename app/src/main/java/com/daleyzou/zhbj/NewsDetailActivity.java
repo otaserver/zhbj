@@ -118,12 +118,13 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mAmBSave.setOnClickListener(this);
 
         WebSettings settings = mWebView.getSettings();
-        // 显示缩放按钮
-        settings.setBuiltInZoomControls(true);
+        // 显示缩放按钮，如果为true会在页面有+，-两个图标，不美观。建议设置为false。
+        settings.setBuiltInZoomControls(false);
         // 支持双击缩放
         settings.setUseWideViewPort(true);
-        // 不支持js功能
-        settings.setJavaScriptEnabled(false);
+        // 是否支持js执行，开启脚本执行就可以展示页面了。但会弹出对话框调用手机淘宝打开页面。关闭脚本执行则显示不了页面。
+        settings.setJavaScriptEnabled(true);
+        //  网上说这句也要加上，否则页面显示还是会有问题。
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAppCacheEnabled(true);
@@ -152,7 +153,6 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d(TAG, "跳转链接：" + url);
                 try {
                     if (url.startsWith("http:") || url.startsWith("https:")) {
                         view.setWebChromeClient(new WebChromeClient());
