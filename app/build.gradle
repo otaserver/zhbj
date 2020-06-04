@@ -2,14 +2,27 @@ apply plugin: 'com.android.application'
 // 添加插件
 apply plugin: "com.mob.sdk"
 
+def gitCommitShortHash = 'git log -1 --pretty=%h'.execute([], project.rootDir).text.trim()
+def gitCommitDate = 'git log -1 --pretty=%ci'.execute([], project.rootDir).text.trim().split()[0]
+def gitShortShaDate = gitCommitShortHash + "_" + gitCommitDate
+
+// Auto-incrementing commit count based on counting commits to HEAD (Build #543)
+def gitCommitCount = Integer.parseInt('git rev-list HEAD --count'.execute([], project.rootDir).text.trim())
+
+// I want to use git tags as my version names (1.2.2)
+def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.daleyzou.zhbj"
-        minSdkVersion 22
-        targetSdkVersion 28
-        versionCode 1
-        versionName "0.0.1"
+        minSdkVersion 26
+        targetSdkVersion 26
+        //这里使用自动的git版本号。
+        versionCode gitCommitCount
+        //这里使用自动的git标签。
+        versionName gitShortShaDate
         useLibrary 'org.apache.http.legacy'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,17 +44,24 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation 'androidx.test:core:1.2.0'
+    //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //    androidTestImplementation 'androidx.test:core:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(':SlidingMenu-master')
     implementation files('libs/xUtils-2.6.14.jar')
-//    xUtils 3.0由于包名路径修改，升级要改动太多代码，故暂时还是用本地lib。
-//    implementation 'org.xutils:xutils:3.8.3'
-//    使用gradle从web下载库，本地不在保存lib。
+    //    xUtils 3.0由于包名路径修改，升级要改动太多代码，故暂时还是用本地lib。
+    //    implementation 'org.xutils:xutils:3.8.3'
+    //    使用gradle从web下载库，本地不在保存lib。
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation project(':ViewPagerIndicator-master')
+
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_LIBRARY_VERSION"
+    //    仿照官网自己加入的代码
+    implementation 'org.permissionsdispatcher:permissionsdispatcher:4.6.0'
+    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
+    implementation files('../libs/com.otaserver.androidUtil.1.0.3.jar')
 }
+
 // 在MobSDK的扩展中注册ShareSDK的相关信息
 MobSDK {
     appKey "257150a36a59c"
