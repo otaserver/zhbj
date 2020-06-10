@@ -4,13 +4,17 @@ apply plugin: "com.mob.sdk"
 
 def gitCommitShortHash = 'git log -1 --pretty=%h'.execute([], project.rootDir).text.trim()
 def gitCommitDate = 'git log -1 --pretty=%ci'.execute([], project.rootDir).text.trim().split()[0]
-def gitShortShaDate = gitCommitShortHash + "_" + gitCommitDate
 
 // Auto-incrementing commit count based on counting commits to HEAD (Build #543)
 def gitCommitCount = Integer.parseInt('git rev-list HEAD --count'.execute([], project.rootDir).text.trim())
 
-// I want to use git tags as my version names (1.2.2)
+// 使用git tags 作为版本名称，需要在当前分支下有tag标签，此命令会获取最后一个tag的名称。
 def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
+
+println "gitCommitDate==========" + gitCommitDate
+println "gitCommitShortHash==========" + gitCommitShortHash
+println "gitCommitCount===========" + gitCommitCount
+println "gitCurrentTag============" + gitCurrentTag
 
 
 android {
@@ -21,8 +25,8 @@ android {
         targetSdkVersion 26
         //这里使用自动的git版本号。
         versionCode gitCommitCount
-        //这里使用自动的git标签。
-        versionName gitShortShaDate
+        //这里使用自动的git标签。0.0.2
+        versionName gitCurrentTag
         useLibrary 'org.apache.http.legacy'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,7 +36,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    // 输出版本名到 build 目录下的 version_name.txt 文件
+    applicationVariants.all { variant ->
+        project.tasks["assemble${variant.name.capitalize()}"].doLast {
+            new File(project.buildDir, "version_name.txt").withWriter('utf-8') {
+                //it.write(variant.versionName)
+                //写到文件中是一个长串 示例：0.0.2_2020-06-04(d19d6d0)
+                it.write(gitCurrentTag + "(" + gitCommitDate + "_" + gitCommitShortHash + ")")
+            }
+        }
+    }
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
 }
