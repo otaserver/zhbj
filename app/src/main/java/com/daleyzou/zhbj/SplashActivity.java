@@ -1,6 +1,7 @@
 package com.daleyzou.zhbj;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
@@ -19,6 +20,8 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.otaserver.android.dao.DeviceInfo;
+import com.otaserver.android.util.DeviceInfoGsonUtil;
 
 /**
  * 启动页，也是app的主活动页
@@ -29,6 +32,10 @@ public class SplashActivity extends AppCompatActivity {
 
     //为日志Log定义tag标签
     private static final String TAG = "SplashActivity";
+
+    static final String sharedPrefsName = "DeviceInfo";
+    //    DeviceInfoTextUtil devInfoUtil = new DeviceInfoTextUtil();
+    DeviceInfoGsonUtil devInfoUtil = new DeviceInfoGsonUtil();
 
     /**
      * 是否显示开屏动画。
@@ -41,6 +48,9 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         getDataFromServer();
+
+        //获取不需要权限的设备id信息。
+        updateDeviceInfoNoNeedPermission();
 
         rlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         // 旋转动画
@@ -124,4 +134,17 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * 不需要运行时权限获取android属性的例子，
+     * 可以获得androidID，appInstallDate，appInstallGuid三个属性。
+     */
+    void updateDeviceInfoNoNeedPermission() {
+        DeviceInfo deviceInfo = devInfoUtil.getDeviceInfoNoNeedPermission(this.getContentResolver());
+        SharedPreferences pref = getSharedPreferences(sharedPrefsName, MODE_PRIVATE);
+        devInfoUtil.save(deviceInfo, pref);
+        Log.d(TAG, "do updateDeviceInfoNoNeedPermission()");
+    }
+
 }

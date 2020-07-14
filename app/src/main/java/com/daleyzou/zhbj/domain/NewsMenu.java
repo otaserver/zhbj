@@ -1,6 +1,5 @@
 package com.daleyzou.zhbj.domain;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ public class NewsMenu {
 
     //侧边栏菜单对象
     public class NewsMenuData{
-        public int id;
+        public String id;
         public String title;
         public int type;
         public ArrayList<NewsTabData> children;
@@ -35,7 +34,7 @@ public class NewsMenu {
 
     //页签的对象
     public class NewsTabData{
-        public int id;
+        public String id;
         public String title;
         public int type;
         public String url;
