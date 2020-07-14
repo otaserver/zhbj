@@ -20,14 +20,14 @@ public class TaskPager extends BasePager {
     public void initData() {
         //要给帧布局填充布局对象
         TextView view = new TextView(mActivity);
-        view.setText("每天领红包，增加用户粘性");
+        view.setText("百个爆品，百人团购，专人负责砍价");
         view.setTextColor(Color.RED);
         view.setTextSize(22);
         view.setGravity(Gravity.CENTER);
 
         flContent.addView(view);
         //修改页面标题
-        tvTitle.setText("任务");
+        tvTitle.setText("百百团");
         btnMenu.setVisibility(View.VISIBLE);
     }
 }
