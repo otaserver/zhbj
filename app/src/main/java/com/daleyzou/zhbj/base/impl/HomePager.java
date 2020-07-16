@@ -25,11 +25,13 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import java.util.ArrayList;
 
 /**
- * 首页
+ * 首页,没有左侧的隐藏菜单。
  */
 public class HomePager extends BasePager {
-    //菜单详情页集合
+
+    //菜单详情页集合，已经转换为对象的新闻列表。
     private ArrayList<BaseMenuDetailPager> mMenuDetailPagers;
+    //APP11的分类。
     private NewsMenu mNewsData;
     //为日志Log定义tag标签
     private static final String TAG = "HomePager";
@@ -56,6 +58,8 @@ public class HomePager extends BasePager {
 
         //隐藏菜单按钮
         btnMenu.setVisibility(View.GONE);
+//        btnMenu.setVisibility(View.VISIBLE);
+
 
         //先判断有没有缓存
         String cache = CacheUtils.getCache(GlobalConstants.CATEGORY_URL, mActivity);
@@ -105,7 +109,7 @@ public class HomePager extends BasePager {
         // Gson为google处理json的类库。
         Gson gson = new Gson();
         mNewsData = gson.fromJson(json, NewsMenu.class);
-        Log.d(TAG, "Gson对象:" + mNewsData.toString());
+//        Log.d(TAG, "Gson对象:" + mNewsData.toString());
 
         //初始化菜单详情页
         mMenuDetailPagers = new ArrayList<BaseMenuDetailPager>();
@@ -126,10 +130,12 @@ public class HomePager extends BasePager {
 
         // 将新闻菜单详情页设为默认界面
         setCurrentDetailPager(0);
+
     }
 
+
     /**
-     * 设置菜单详情页
+     * 设置菜单详情页，相当于刷新。
      *
      * @param position
      */
