@@ -29,7 +29,7 @@ public class VideoPager extends BasePager {
         flContent.addView(view);
         //修改页面标题
         tvTitle.setText("短视频");
-        btnMenu.setVisibility(View.VISIBLE);
+        btnMenu.setVisibility(View.GONE);
 
     }
 

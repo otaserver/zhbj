@@ -28,6 +28,6 @@ public class WikiPager extends BasePager {
         flContent.addView(view);
         //修改页面标题
         tvTitle.setText("百科");
-        btnMenu.setVisibility(View.VISIBLE);
+        btnMenu.setVisibility(View.GONE);
     }
 }
