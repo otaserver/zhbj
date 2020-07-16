@@ -1,0 +1,57 @@
+{
+  "packageTime": "1591956782.570168",
+  "packageDate": "2020-06-12 18:13:02",
+  "packageId": "id-20191114",
+  "data": {
+    "nextPageUrl": "",
+    "items_count": "9866",
+    "feed": [
+      {
+        "newsId": "611557839405",
+        "title": "测试转义字符：小小优趣会员卡Super\xa0Simple\xa0Songs英语启蒙早教课程儿童益智动画",
+        "catName": "玩具/童车/益智/积木/模型",
+        "catId": "1658266348",
+        "link": "https://uland.taobao.com/coupon/edetail?e=RY94fv5XoK6bhUsf2ayXDGkgtRwkaNgC3BrGiMJ2aYHb5TINHYeg%2BMZ1aHPBiHFBBPnQG9SaDjqGCKm2MJDggyYan619xCHOYPwVe7Rtz5RQqyOtq9PJNtInwNEH4UAFij1K9MJAGC6juXjpN0HsOLqNFW9fh4Nsjg0jMG3rQjs%3D&af=1&pid=mm_368070113_840900154_109420750311",
+        "pic": "http://img.alicdn.com/bao/uploaded/i3/2207279568105/O1CN0107fiJg29k8iWCeUhK_!!0-item_pic.jpg",
+        "price": "268.0",
+        "couponStartTime": "2020-06-11",
+        "couponEndTime": "2020-06-16",
+        "comment": 308
+      },
+      {
+        "newsId": "612657877413",
+        "title": "测试空格不进行转义： 大号工程车  玩具套装2  消防吊车  男孩儿童3岁  挖推土  挖掘机  各类小汽车",
+        "catName": "玩具/童车/益智/积木/模型",
+        "catId": "1658266348",
+        "link": "https://uland.taobao.com/coupon/edetail?e=yCtcNS4M%2FOqbhUsf2ayXDGkgtRwkaNgC3BrGiMJ2aYHb5TINHYeg%2BMZ1aHPBiHFBBPnQG9SaDjq4NryfXmFc94v9MlEHKDDnYPwVe7Rtz5RQqyOtq9PJNtInwNEH4UAF4uPgaRnXZCtO%2FW65i8wV8ANNryGz14yBdLFC%2BWL61dM%3D&af=1&pid=mm_368070113_840900154_109420750311",
+        "pic": "http://img.alicdn.com/bao/uploaded/i2/2206462095060/O1CN01fNqt3t1nFWgghI0Yx_!!2-item_pic.png",
+        "price": "42.96",
+        "couponStartTime": "2020-06-01",
+        "couponEndTime": "2020-06-30",
+        "comment": 308
+      }
+    ],
+    "ad": {
+      "feed": [
+        {
+          "newsId": "5-ad_[brand_e850219f-b09d-49dc-94cc-360bb52def5b:PDPS000000056242:aeaaa73c147faf4e:FBB8F68F14C9:0]-5a6b9-ad-mms-url",
+          "title": "就该这样趣生活 全新一代凯迪拉克XT5 焕新上市",
+          "pic": "https://su.addnewer.com/image/2019/10/1572427222560.jpg",
+          "adext": "{\"adid\":\"21600499\",\"adunitid\":\"PDPS000000056242\"}",
+          "recommendInfo": "adianyi_f"
+        }
+      ]
+    },
+    "searchBar": {
+      "labelButton": [
+        {
+          "text": "来浪圈浪",
+          "link": "http://quanzi.sina.cn/index.5.html",
+          "newsId": "1-http://quanzi.sina.cn/index.5.html-mms-url",
+          "icon": ""
+        }
+      ]
+    },
+    "lastTimestamp": 1573548300
+  }
+}    
