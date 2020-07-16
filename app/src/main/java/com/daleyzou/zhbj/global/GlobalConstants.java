@@ -16,7 +16,6 @@ public class GlobalConstants {
     public static final String NETWORK_TEST_URL = SERVER_SITE_URL + "/api0.json";
 
     //分类信息接口
-//    public static final String CATEGORY_URL = SERVER_URL + "/categories.json";
     public static final String CATEGORY_URL = SERVER_SITE_URL + "/api11-2.json";
 
 }
