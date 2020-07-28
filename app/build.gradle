@@ -21,7 +21,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.daleyzou.zhbj"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 26
         //这里使用自动的git版本号。
         versionCode gitCommitCount
@@ -60,6 +60,7 @@ dependencies {
     //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //    androidTestImplementation 'androidx.test:core:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //    引入了SlidingMenu-master库
     implementation project(':SlidingMenu-master')
     implementation files('libs/xUtils-2.6.14.jar')
     //    xUtils 3.0由于包名路径修改，升级要改动太多代码，故暂时还是用本地lib。
@@ -72,7 +73,7 @@ dependencies {
     //    仿照官网自己加入的代码
     implementation 'org.permissionsdispatcher:permissionsdispatcher:4.6.0'
     annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
-    implementation files('../libs/com.otaserver.androidUtil.1.0.3.jar')
+    implementation files('../libs/com.otaserver.androidUtil.0.0.5.jar')  
 }
 
 // 在MobSDK的扩展中注册ShareSDK的相关信息
