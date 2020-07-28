@@ -55,12 +55,13 @@ public class BasePager {
         btnPhoto = (ImageButton) view.findViewById(R.id.btn_photo);
         flContent = (FrameLayout) view.findViewById(R.id.fl_content);
 
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggle();
-            }
-        });
+//        取消左侧的划出菜单，因为目前没有定义。
+//        btnMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                toggle();
+//            }
+//        });
 
 
         SearchView sv = (SearchView) view.findViewById(R.id.sv);
