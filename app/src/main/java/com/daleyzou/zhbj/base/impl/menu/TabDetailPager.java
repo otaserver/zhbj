@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -122,15 +123,14 @@ public class TabDetailPager extends BaseDetailPager {
             }
         });
 
-//        lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        pullRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //
 //                Log.d(TAG, "position： " + position);
 //                Log.d(TAG, "id： " + id);
 //
-//
-//                int headerViewsCount = lvList.getHeaderViewsCount();// 获取头布局数量
+//                int headerViewsCount = pullRefreshListView.getHeaderViewsCount();// 获取头布局数量
 //                position = position - headerViewsCount;// 需要减去头布局的占位
 //
 //                Log.d(TAG, "第 " + position + "被点击了！");
