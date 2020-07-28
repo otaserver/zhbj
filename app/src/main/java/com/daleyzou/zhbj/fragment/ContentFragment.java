@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.daleyzou.zhbj.MainActivity;
 import com.daleyzou.zhbj.R;
-import com.daleyzou.zhbj.base.BasePager;
+import com.daleyzou.zhbj.base.impl.BasePager;
 import com.daleyzou.zhbj.base.impl.HomePager;
 import com.daleyzou.zhbj.base.impl.SettingPager;
 import com.daleyzou.zhbj.base.impl.TaskPager;

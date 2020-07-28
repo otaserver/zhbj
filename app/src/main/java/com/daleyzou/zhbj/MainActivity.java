@@ -12,7 +12,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 /**
- * 主页面
+ * MainActivity是继承了SlidingFragmentActivity。
  */
 public class MainActivity extends SlidingFragmentActivity {
     private static final String TAG_LEFT_MENU = "TAG_LEFT_MENU";
@@ -25,12 +25,14 @@ public class MainActivity extends SlidingFragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+//        设置滑动菜单，但是本例中没有使用。
         setBehindContentView(R.layout.left_menu);
         SlidingMenu slidingMenu = getSlidingMenu();
         //全屏触摸
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         //屏幕预留100像素宽度
         slidingMenu.setBehindOffset(450);
+
         initFragment();
     }
 

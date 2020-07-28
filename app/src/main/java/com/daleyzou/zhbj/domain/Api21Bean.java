@@ -5,8 +5,9 @@ import java.util.ArrayList;
 /**
  * 页签详情对象
  * gson通过此bean来映射对象。
+ * Api21的映射对象。
  */
-public class NewsTabBean {
+public class Api21Bean {
 
     public NewsTab data;
     public String packageDate;
