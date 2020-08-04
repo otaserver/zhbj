@@ -136,13 +136,14 @@ public class BasePager {
     }
 
     /**
-     * 打开或者关闭侧边栏
+     * 打开或者关闭侧边栏，
+     * 注释此方法，会禁止左方的滑动菜单的展示
      */
-    private void toggle() {
-        MainActivity mainUI = (MainActivity) mActivity;
-        SlidingMenu slidingMenu = mainUI.getSlidingMenu();
-        slidingMenu.toggle();//如果当前状态是开，调用后就关；反之亦然
-    }
+//    private void toggle() {
+//        MainActivity mainUI = (MainActivity) mActivity;
+//        SlidingMenu slidingMenu = mainUI.getSlidingMenu();
+//        slidingMenu.toggle();//如果当前状态是开，调用后就关；反之亦然
+//    }
 
     /**
      * 初始化数据

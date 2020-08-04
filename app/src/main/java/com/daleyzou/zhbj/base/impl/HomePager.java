@@ -54,7 +54,7 @@ public class HomePager extends BasePager {
         //修改页面标题
         tvTitle.setText("首页");
 
-        //隐藏菜单按钮
+        //隐藏菜单按钮,其实是左上方的那个三个横线。
         btnMenu.setVisibility(View.GONE);
 //        btnMenu.setVisibility(View.VISIBLE);
 
