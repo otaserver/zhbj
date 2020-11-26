@@ -46,7 +46,7 @@ public class MenuDetailPager extends BaseDetailPager implements ViewPager.OnPage
 
 
     @Override
-    public ViewPager getViewPager(){
+    public ViewPager getViewPager() {
         return mViewPager;
     }
 
@@ -71,6 +71,7 @@ public class MenuDetailPager extends BaseDetailPager implements ViewPager.OnPage
 
     /**
      * 初始化View，定义了顶部菜单的视图View！,可以容纳一级分类，和下面的数据列表。
+     *
      * @return
      */
     @Override
@@ -105,16 +106,12 @@ public class MenuDetailPager extends BaseDetailPager implements ViewPager.OnPage
 
     /**
      * 响应顶部菜单切换
+     *
      * @param position
      */
     @Override
     public void onPageSelected(int position) {
-        Log.d(TAG, "onPageSelected：" + position);
-        if (position == 0) {
-            setSlidingMenuEnable(true);
-        } else {
-            setSlidingMenuEnable(false);
-        }
+        Log.d(TAG, "onPageSelected()：position=" + position);
     }
 
     @Override
@@ -165,27 +162,12 @@ public class MenuDetailPager extends BaseDetailPager implements ViewPager.OnPage
         }
     }
 
-    /**
-     * 开启或禁用侧边栏
-     *
-     * @param enable
-     */
-    private void setSlidingMenuEnable(boolean enable) {
-        MainActivity mainUI = (MainActivity) mActivity;
-        SlidingMenu slidingMenu = mainUI.getSlidingMenu();
-        if (enable) {
-            slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        } else {
-            slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        }
-    }
-
     @OnClick(R.id.btn_next)
     public void nextPage(View view) {
         // 跳到下个页面
         int currentItem = mViewPager.getCurrentItem();
         currentItem++;
-        Log.d(TAG, "准备跳到下个页面！"+currentItem);
+        Log.d(TAG, "准备跳到下个页面！" + currentItem);
         mViewPager.setCurrentItem(currentItem);
     }
 }
