@@ -37,6 +37,7 @@ public class Api11Bean {
         public String title;
         public int type;
 
+
         //例如：children在目前定义的"title": "研值快报",中是一个20个的一级分类。
         public ArrayList<NewsTabData> children;
 
@@ -63,6 +64,7 @@ public class Api11Bean {
         public String title;
         public int type;
         public String url;
+        public String abbr;
 
         @Override
         public String toString() {
@@ -70,6 +72,7 @@ public class Api11Bean {
                     "id=" + id +
                     ", title='" + title + '\'' +
                     ", type=" + type +
+                    ", abbr=" + abbr +
                     ", url='" + url + '\'' +
                     '}';
         }

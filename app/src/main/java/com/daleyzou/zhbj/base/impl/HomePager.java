@@ -29,7 +29,7 @@ public class HomePager extends BasePager {
     private ArrayList<BaseDetailPager> mMenuDetailPagers;
 
     //APP11的分类。
-    private Api11Bean app211Data;
+    private Api11Bean.NewsMenuData  app211Data;
 
     //为日志Log定义tag标签
     private static final String TAG = "HomePager";
@@ -105,13 +105,13 @@ public class HomePager extends BasePager {
     private void processData(String json) {
         // Gson为google处理json的类库。
         Gson gson = new Gson();
-        app211Data = gson.fromJson(json, Api11Bean.class);
-//        Log.d(TAG, "Gson对象:" + mNewsData.toString());
+        app211Data = gson.fromJson(json, Api11Bean.NewsMenuData.class);
+        Log.d(TAG, "Gson对象:" + json);
 
         //初始化菜单详情页
         mMenuDetailPagers = new ArrayList<BaseDetailPager>();
 //        代码里只取了data中的第一个节点。
-        mMenuDetailPagers.add(new MenuDetailPager(mActivity, app211Data.data.get(0).children));
+        mMenuDetailPagers.add(new MenuDetailPager(mActivity, app211Data.children));
 
         // 将新闻菜单详情页设为默认界面,因为json里就只有第一个节点。这里也只能设置为0.
         setCurrentDetailPager(0);
@@ -151,10 +151,10 @@ public class HomePager extends BasePager {
         pager.initData(key);
 
         // 更新标题
-        tvTitle.setText(app211Data.data.get(position).title);
+        tvTitle.setText(app211Data.title);
 
         //这里就是第一条记录，实际设置值为"研值快报"
-        Log.d(TAG, "setCurrentDetailPager, title:" + app211Data.data.get(position).title);
+        Log.d(TAG, "setCurrentDetailPager, title:" + app211Data.title);
 
         // 如果是组图页面，需要显示切换按钮
         btnPhoto.setVisibility(View.INVISIBLE);

@@ -9,9 +9,6 @@ import java.util.ArrayList;
  */
 public class Api21Bean {
 
-    public NewsTab data;
-    public String packageDate;
-
     public class NewsTab {
         public String nextPageUrl;
         public ArrayList<NewsData> feed;
