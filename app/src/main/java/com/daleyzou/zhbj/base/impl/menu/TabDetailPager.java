@@ -57,7 +57,9 @@ public class TabDetailPager extends BaseDetailPager {
 
 
     private String mUrl;
+
     private ArrayList<NewsData> mNewsList;
+
     private NewsAdapter mNewsAdapter;
 
     private String mPackageDate;
@@ -71,7 +73,7 @@ public class TabDetailPager extends BaseDetailPager {
     private String mMoreUrl;
 
     @Override
-    public ViewPager getViewPager(){
+    public ViewPager getViewPager() {
         return null;
     }
 
@@ -103,15 +105,15 @@ public class TabDetailPager extends BaseDetailPager {
 
             @Override
             public void onRefersh() {
-                Log.d(TAG, "onRefersh(): key is null" );
-                String key="";
-                // 刷新数据
+                Log.d(TAG, "onRefersh(): key is null");
+                String key = "";
+                //初始化时key总是空的。此时需要从服务端以空key来刷新数据
                 getDataFromServer(key);
             }
 
             @Override
             public void onLoadMore() {
-                Log.d(TAG, "onLoadMore(): mMoreUrl is:|"+mMoreUrl+"|");
+                Log.d(TAG, "onLoadMore(): mMoreUrl is:|" + mMoreUrl + "|");
 
                 // 判断是否有下一页数据,
                 if (!mMoreUrl.isEmpty()) {
@@ -205,14 +207,21 @@ public class TabDetailPager extends BaseDetailPager {
 
     @Override
     public void initData(String key) {
-        Log.d(TAG, "initData()"+mUrl+mActivity+key);
+        Log.d(TAG, "initData()" + mUrl + mActivity + key);
 //        view.setText(mTabData.title);
-        String cache="";
-        if(key!=null||key!=""||key!="null"){
-            cache = CacheUtils.getCache(mUrl+"?keyword="+key, mActivity);
+        String cache = "";
+
+        //判断url中有？则使用连字符&，否则使用连字符？
+        String connStr = "?";
+        if (mUrl.contains(connStr)) {
+            connStr = "&";
         }
-        else{
+
+        //TODO:评估需要带着keyword来缓存吗？
+        if (TextUtils.isEmpty(key)) {
             cache = CacheUtils.getCache(mUrl, mActivity);
+        } else {
+            cache = CacheUtils.getCache(mUrl + connStr + "keyword=" + key, mActivity);
         }
 
         if (!TextUtils.isEmpty(cache)) {
@@ -221,19 +230,27 @@ public class TabDetailPager extends BaseDetailPager {
         getDataFromServer(key);
     }
 
+    /**
+     * @param key
+     */
     private void getDataFromServer(String key) {
         HttpUtils utils = new HttpUtils();
-//        Log.d(TAG, "getDataFromServer()"+mUrl+key);
+        Log.d(TAG, "getDataFromServer()" + mUrl + key);
 
-        String url ="";
-        if(key!=null||key!=""||key!="null"){
-            url =mUrl+"?keyword="+key;
-        }
-        else{
-            url= mUrl;
+        //判断url中有？则使用连字符&，否则使用连字符？
+        String connStr = "?";
+        if (mUrl.contains(connStr)) {
+            connStr = "&";
         }
 
-        Log.d(TAG, "getDataFromServer()"+url);
+        String url = "";
+        if (TextUtils.isEmpty(key)) {
+            url = mUrl;
+        } else {
+            url = mUrl + connStr + "keyword=" + key;
+        }
+
+        Log.d(TAG, "getDataFromServer()" + url);
 
         //根据url，发送请求。
         utils.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
@@ -241,7 +258,7 @@ public class TabDetailPager extends BaseDetailPager {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
-//                Log.d(TAG, "onSuccess result:" + result);
+                Log.d(TAG, "onSuccess result:" + result);
                 processData(result, false);
                 CacheUtils.setCache(mUrl, result, mActivity);
                 // 收起下拉刷新控件
@@ -266,20 +283,19 @@ public class TabDetailPager extends BaseDetailPager {
         //从json中解析并加载数据。
         //可能会出现解析异常
         try {
-            Api21Bean api21Data = gson.fromJson(result, Api21Bean.class);
+            Api21Bean.NewsTab api21Data = gson.fromJson(result, Api21Bean.NewsTab.class);
 
 
 //        mMoreUrl = GlobalConstants.MORE_URL;
 //        赋值给类变量，用于翻页。
-            mMoreUrl = api21Data.data.nextPageUrl;
+            mMoreUrl = api21Data.nextPageUrl;
             Log.d("processData mMoreUrl:", mMoreUrl);
 
-
-            mPackageDate = api21Data.packageDate;
+//            mPackageDate = api21Data.toString();
 
             if (!isMore) {
                 // 列表新闻
-                mNewsList = api21Data.data.feed;
+                mNewsList = api21Data.feed;
                 if (mNewsList != null) {
                     mNewsAdapter = new NewsAdapter();
                     pullRefreshListView.setAdapter(mNewsAdapter);
@@ -287,7 +303,7 @@ public class TabDetailPager extends BaseDetailPager {
 
             } else {
                 // 加载更多数据
-                ArrayList<Api21Bean.NewsData> moreNews = api21Data.data.feed;
+                ArrayList<Api21Bean.NewsData> moreNews = api21Data.feed;
                 // 将数据追加到原来的集合中
                 mNewsList.addAll(moreNews);
                 // 刷新listview
@@ -341,7 +357,7 @@ public class TabDetailPager extends BaseDetailPager {
                 holder.tvCatName = convertView.findViewById(R.id.tv_item_category_name);
 
                 convertView.setTag(holder);
-                Log.d(TAG, " holder："+holder.tvTitle.getText());
+                // Log.d(TAG, " holder："+holder.tvTitle.getText());
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
