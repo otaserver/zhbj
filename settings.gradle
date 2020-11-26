@@ -1,1 +1,1 @@
-include ':app', ':SlidingMenu-master', ':ViewPagerIndicator-master', ':comment',':ShareSDK'
+include ':app', ':SlidingMenu-master', ':ViewPagerIndicator-master', ':comment'
