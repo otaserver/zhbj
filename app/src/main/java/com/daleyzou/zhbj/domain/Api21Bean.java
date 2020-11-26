@@ -28,5 +28,7 @@ public class Api21Bean {
         public String catId;
         public String couponStartTime;
         public String couponEndTime;
+        public String publishTime;
+        public String oid;
     }
 }

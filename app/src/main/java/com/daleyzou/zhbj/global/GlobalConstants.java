@@ -1,22 +1,14 @@
 package com.daleyzou.zhbj.global;
 
 public class GlobalConstants {
-    //服务器主域名
-//    public static final String SERVER_URL = "https://myresource-daleyzou.oss-cn-beijing.aliyuncs.com";
+    //服务器主域名，
+    public static final String SERVER_SITE_URL = "http://zns101.com:8083/";
+
+    //增加一个网络联通性的验证接口，避免后期用json解析器解析json报错引起的退出。之所以没有端口是因为这个真的是静态文件。
+    public static final String NETWORK_TEST_URL = "http://zns101.com/api/api0.json";
 
     //分类信息接口
-//    public static final String PHOTOS_URL = SERVER_URL + "/photos/photos_1.json";
-//    public static final String MORE_URL = "http://zns101.com/api/api22.json-page";
-
-
-    //服务器主域名
-    public static final String SERVER_SITE_URL = "http://zns101.com/api";
-
-    //增加一个网络联通性的验证接口，避免后期用json解析器解析json报错引起的退出。
-    public static final String NETWORK_TEST_URL = SERVER_SITE_URL + "/api0.json";
-
-    //分类信息接口
-    public static final String CATEGORY_URL = SERVER_SITE_URL + "/api11-2.json";
+    public static final String CATEGORY_URL = SERVER_SITE_URL+"api/api11-v1-category";
 
 }
 

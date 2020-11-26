@@ -36,6 +36,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 //https://github.com/wyouflf/xUtils3
@@ -319,7 +320,7 @@ public class TabDetailPager extends BaseDetailPager {
 
     class NewsAdapter extends BaseAdapter {
         private BitmapUtils mBitmapUtils;
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
         private NewsAdapter() {
             mBitmapUtils = new BitmapUtils(mActivity);
@@ -407,12 +408,8 @@ public class TabDetailPager extends BaseDetailPager {
 //            holder.tvIntro.setText(news.intro);
 
             //转换为时间格式
-            //TODO:测试用例写异常数据的处理
-
-//            Date dNow = new Date(Long.parseLong(news.pubDate) * 1000);
-//            holder.tvDate.setText(sDateFormat.format(dNow));
-
-            holder.tvDate.setText(news.couponStartTime);
+           Date dNow = new Date(Long.parseLong(news.publishTime));
+           holder.tvDate.setText(sDateFormat.format(dNow));
 
             // 根据本地记录标记已读、未读
             String readIds = PrefUtils.getString(mActivity, "read_ids", "");
