@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply from: '../MobSDK.gradle'
+//apply from: '../MobSDK.gradle'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.0"
     signingConfigs {
         config {
             keyAlias 'demokey.keystore'
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "cn.sharesdk.demo"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 78
         versionName "3.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

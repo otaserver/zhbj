@@ -39,7 +39,7 @@
 
         <provider
             android:name="com.daleyzou.zhbj.NewsContentProvider"
-            android:authorities="com.daleyzou.zhbj"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="true" />
         <uses-library
             android:name="org.apache.http.legacy"
