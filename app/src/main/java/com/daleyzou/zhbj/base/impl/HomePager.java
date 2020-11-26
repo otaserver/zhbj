@@ -29,7 +29,7 @@ public class HomePager extends BasePager {
     private ArrayList<BaseDetailPager> mMenuDetailPagers;
 
     //APP11的分类。
-    private Api11Bean.NewsMenuData  app211Data;
+    private Api11Bean.NewsMenuData app211Data;
 
     //为日志Log定义tag标签
     private static final String TAG = "HomePager";
@@ -96,7 +96,6 @@ public class HomePager extends BasePager {
     }
 
 
-
     /**
      * 解析数据
      *
@@ -119,11 +118,15 @@ public class HomePager extends BasePager {
 
 
     @Override
-    public  void doSearch(String key){
+    public void doSearch(String key) {
         //重新改FarameLayout添加内容
         BaseDetailPager pager = mMenuDetailPagers.get(0);
-        Log.d(TAG, "HomePAger.java  doSearch() for key:"+key+pager);
-        pager.getViewPager().setCurrentItem(20);
+        Log.d(TAG, "HomePAger.java  doSearch() for key:" + key + pager);
+        //在这里定位Tab页的位置。
+        // TODO：魔法数字，应该使用关键字来定位tab！
+        int posOfSearchTab = 21;
+        pager.getViewPager().setCurrentItem(posOfSearchTab);
+        //通过传递key和初始化数据来进行查询！
         pager.setKey(key);
         pager.initData(key);
     }
