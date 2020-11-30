@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,7 +35,8 @@
         <activity android:name=".CommentActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.PageIndicatorDefaults" />
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="com.daleyzou.zhbj.NewsContentProvider"
