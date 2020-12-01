@@ -18,11 +18,14 @@ println "gitCurrentTag============" + gitCurrentTag
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.otaserver.app211"
+//        minSdkVersion 26 但由于引用了androidutil包，所以最小只能是26.可能nexus6安装不了。
         minSdkVersion 26
-        targetSdkVersion 26
+        targetSdkVersion rootProject.ext.targetSdkVersion
         //这里使用自动的git版本号。
         versionCode gitCommitCount
         //这里使用自动的git标签。0.0.2
