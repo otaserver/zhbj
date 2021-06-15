@@ -1,4 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "configAndroid.gradle"
+apply from: "time.gradle"
 
 buildscript {
 
@@ -8,7 +10,6 @@ buildscript {
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'http://mvn.mob.com/android' }
-        jcenter()
         //此地址国内会经常访问不到，建议用阿里云的镜像。https://help.aliyun.com/document_detail/102512.html?spm=a2c40.aliyun_maven_repo.0.0.361830542uam9k
         //url 'https://maven.google.com',
         //url "https://maven.aliyun.com/repository/google",
@@ -16,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "com.mob.sdk:MobSDK:+"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -31,21 +32,9 @@ allprojects {
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://dl.bintray.com/otaserver/sdk/' }
-        jcenter()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-// 统一推送联盟要求：
-// 1.基于Android8.0 （API等级26）及以上版本开发
-// 2.Target SDK Version 最低：24
-ext {
-    //build常量定义：01版本,2020-12-01修改
-    compileSdkVersion = 29         //默认会是本地安装android的sdk的最高版本。api29对应android10。后续修改也只会比29版本高。
-    buildToolsVersion = "29.0.3"   //根据实际本地安装android的buildTool版本设置。
-    minSdkVersion = 23             //没有硬性规定。暂时匹配测试机nexus6的版本。api23对应android6。
-    targetSdkVersion = 29          //要求最低24,api26对应android8。
 }

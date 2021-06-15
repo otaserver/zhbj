@@ -18,14 +18,15 @@ println "gitCurrentTag============" + gitCurrentTag
 
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
 
     defaultConfig {
         applicationId "com.otaserver.app211"
 //        minSdkVersion 26 但由于引用了androidutil包，所以最小只能是26.可能nexus6安装不了。
-        minSdkVersion 26
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        //使用ext获取变量示例
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         //这里使用自动的git版本号。
         versionCode gitCommitCount
         //这里使用自动的git标签。0.0.2
@@ -51,16 +52,22 @@ android {
     }
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
+
+    // Butterknife requires Java 8.
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 //可以从https://maven.google.com/web/index.html查询版本号。
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //    androidTestImplementation 'androidx.test:core:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -70,16 +77,22 @@ dependencies {
     //    xUtils 3.0由于包名路径修改，升级要改动太多代码，故暂时还是用本地lib。
     //    implementation 'org.xutils:xutils:3.8.3'
     //    使用gradle从web下载库，本地不在保存lib。
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation project(':ViewPagerIndicator-master')
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     implementation "androidx.appcompat:appcompat:$ANDROIDX_LIBRARY_VERSION"
     //    仿照官网自己加入的代码
     implementation 'org.permissionsdispatcher:permissionsdispatcher:4.6.0'
     annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
-//    implementation files('../libs/com.otaserver.androidUtil.0.0.5.jar')
-//    implementation 'otaserver.opensdk:AndroidUtil:0.0.5'
-      api 'otaserver.opensdk:AndroidUtil:0.0.5'
+
+    // jcenter已经下线，只能改为本地引用
+    // api 'otaserver.opensdk:AndroidUtil:0.0.8'
+    api files('../libs/com.otaserver.androidUtil.0.0.8.jar')
+
+    // view注解，简化代码
+    api 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }
 
 // 在MobSDK的扩展中注册ShareSDK的相关信息

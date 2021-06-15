@@ -1,0 +1,20 @@
+//config.gradle文件android版本模板03，2020-12-25修改
+ext {
+    // 统一推送联盟要求：
+    // 1.基于Android8.0 （API等级26）及以上版本开发
+    // 2.Target SDK Version 最低：24    
+    android = [
+            compileSdkVersion: 29,         //默认会是本地安装android的sdk的最高版本。api29对应android10。后续修改也只会比29版本高
+            buildToolsVersion: "29.0.3",   //根据实际本地安装android的buildTool版本设置
+            minSdkVersion    : 26,         //没有硬性规定。暂时匹配测试机nexus6的版本。api23对应android6
+            targetSdkVersion : 26,         //要求最低24,因为是lib所以选要求最低的
+            globalLintCheck  : false,       //全局开启或关闭lint的配置,会忽略每个项目下的lint配置，方便加快编译速度，如果不需要统一配置注释即可
+    ]
+}
+
+// 全局开启或关闭lint的执行方法,会忽略每个项目下的lint配置，方便加快编译速度
+if (!rootProject.ext.android["globalLintCheck"].toString().equalsIgnoreCase("null")) {
+    gradle.taskGraph.whenReady { graph ->
+        graph.allTasks.findAll { it.name ==~ /lint.*/ }*.enabled = rootProject.ext.android["globalLintCheck"]
+    }
+}
