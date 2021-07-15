@@ -112,6 +112,9 @@ public class TabDetailPager extends BaseDetailPager {
                 getDataFromServer(key);
             }
 
+            /**
+             * 翻页时框架支持的，只要配置好url即可！
+             */
             @Override
             public void onLoadMore() {
                 Log.d(TAG, "onLoadMore(): mMoreUrl is:|" + mMoreUrl + "|");
